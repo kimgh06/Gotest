@@ -1,16 +1,52 @@
 package main
 
+import (
+	"fmt"
+)
+
 func main() {
-	k := 10
-	print(fac(k))
+	var max int //최대 크기
+	var n int   // 횟수
+	fmt.Scan(&max, &n)
+	p := 1 // 위치 정보
+	var arr []int
+	sum := 0
+	distance := 0
+	rotation := 0
+	for i := 0; i < n; i++ {
+		var num int
+		fmt.Scan(&num)
+		if p == num { //동일 할때
+			rotation = 0
+		} else if (num-p+max)%max > (p-num+max)%max { // 왼쪽이 더 가까울때
+			rotation = -1
+			distance = (p - num + max) % max
+		} else if (num-p+max)%max < (p-num+max)%max { // 오른쪽이 더 가까울때
+			rotation = 1
+			distance = (num - p + max) % max
+		} else { // 거리가 동일 할때
+			rotation = 2
+			distance = (num - p + max) % max
+		}
+
+		for j := 0; j < distance; j++ {
+
+			if contains(arr, p+1) {
+				p = (num+1)%max + 1
+			} else {
+				p = num%max + 1
+			}
+			arr = append(arr, num)
+
+		}
+	}
 }
 
-func fac(k int) int {
-	sum := 1
-	n := 1
-	for n <= k {
-		sum *= n
-		n++
+func contains(elems []int, v int) bool {
+	for _, s := range elems {
+		if v == s {
+			return true
+		}
 	}
-	return sum
+	return false
 }
