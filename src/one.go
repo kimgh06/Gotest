@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// 백준 1021번
 func main() {
 	var max int //최대 크기
 	var n int   // 횟수
@@ -16,25 +17,44 @@ func main() {
 	for i := 0; i < n; i++ {
 		var num int
 		fmt.Scan(&num)
-		if p == num { //동일 할때
-			rotation = 0
+		if p == num { //동일할 때
+			if !contains(arr, p+1) {
+				sum++
+			}
+			p = p%max + 1
 		} else if (num-p+max)%max > (p-num+max)%max { // 왼쪽이 더 가까울때
-			rotation = -1
 			distance = (p - num + max) % max
+			for j := 0; j < distance; j++ {
+				if !contains(arr, p-1) {
+					sum++
+				}
+				p = (p + max - 1) % max
+			}
+			p = p%max + 1
 		} else if (num-p+max)%max < (p-num+max)%max { // 오른쪽이 더 가까울때
-			rotation = 1
 			distance = (num - p + max) % max
+			for j := 0; j < distance; j++ {
+				if !contains(arr, p+1) {
+					sum++
+				}
+
+			}
 		} else { // 거리가 동일 할때
 			rotation = 2
 			distance = (num - p + max) % max
 		}
 
 		for j := 0; j < distance; j++ {
+			switch rotation {
+			case 0:
+				p = (num)%max + 1
+				if !contains(arr, p+1) {
+					sum++
+				}
+			case 1:
+				if !contains(arr, p+1) {
 
-			if contains(arr, p+1) {
-				p = (num+1)%max + 1
-			} else {
-				p = num%max + 1
+				}
 			}
 			arr = append(arr, num)
 
