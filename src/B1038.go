@@ -19,11 +19,12 @@ func cal(N int) int {
 	n := 10
 	for i := n + 1; i <= N; { //11~N
 		// fmt.Printf("%d\n", n)
-		if check(n) {
+		check, digit := check(n)
+		if check {
 			i++
 			n++
 		} else {
-			n = (n/10 + 1) * 10
+			n = (n/int(math.Pow(10, float64(digit))) + 1) * int(math.Pow(10, float64(digit)))
 		}
 	}
 	if n > 1000000 {
@@ -37,8 +38,8 @@ func check(n int) (bool, int) {
 	max := string(strconv.Itoa(n)[0])
 	for i := digit - 1; i >= 0; i-- {
 		if string(strconv.Itoa(n)[digit-i]) >= max {
-			return false
+			return false, digit - i
 		}
 	}
-	return true
+	return true, -1
 }

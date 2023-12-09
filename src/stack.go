@@ -6,7 +6,7 @@ import (
 
 func main() {
 	top := -1
-	var list [10]int
+	list := "-----------"
 	empty := func() bool {
 		return top == -1
 	}
@@ -14,27 +14,47 @@ func main() {
 	full := func() bool {
 		return top > 9
 	}
-
-	push := func(value int) bool {
-		if full() {
-			return false
-		}
-		top++
-		list[top] = value
-		return true
-	}
 	pop := func() bool {
 		if empty() {
 			return false
 		}
-		list[top] = 0
+		list = list[:top] + "-" + list[top+1:]
 		top--
 		return true
 	}
-	push(5)
-	push(5)
-	push(5)
-	pop()
 
-	fmt.Printf("%d", list)
+	check := func(gwalho string) bool {
+		if empty() {
+			return false
+		}
+		if (string(list[top]) == "(" && gwalho == ")") || (string(list[top]) == "[" && gwalho == "]") || (string(list[top]) == "{" && gwalho == "}") {
+			pop()
+			return true
+		}
+		return false
+	}
+	push := func(gwalho string) bool {
+		if full() {
+			return false
+		}
+		if gwalho == ")" || gwalho == "}" || gwalho == "]" {
+			return check(gwalho)
+		} else {
+			top++
+			list = list[:top] + gwalho + list[top+1:]
+			return true
+		}
+	}
+
+	str := ""
+	fmt.Scan(&str)
+	for i := 0; i < len(str); i++ {
+		if !push(string(str[i])) {
+			fmt.Printf("errrr")
+			return
+		}
+	}
+
+	fmt.Printf("no err")
+	// fmt.Printf("%d", list)
 }
