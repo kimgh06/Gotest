@@ -9,7 +9,7 @@ import (
 func main() {
 	N := 0
 	fmt.Scanf("%d", &N)
-	fmt.Printf("%d\n", cal(N))
+	fmt.Printf("cal:%d\n", cal(N))
 }
 
 func cal(N int) int {
@@ -24,6 +24,7 @@ func cal(N int) int {
 			i++
 			n++
 		} else {
+			fmt.Printf("%d %d, %d\n", n, digit, int(math.Pow(10, float64(digit))))
 			n = (n/int(math.Pow(10, float64(digit))) + 1) * int(math.Pow(10, float64(digit)))
 		}
 	}
@@ -36,9 +37,10 @@ func cal(N int) int {
 func check(n int) (bool, int) {
 	digit := int(math.Floor(math.Log10(float64(n))))
 	max := string(strconv.Itoa(n)[0])
-	for i := digit - 1; i >= 0; i-- {
-		if string(strconv.Itoa(n)[digit-i]) >= max {
-			return false, digit - i
+	for i := digit - 1; i > 0; i-- {
+		if string(strconv.Itoa(n)[i]) >= max {
+			fmt.Printf("%s\n", string(strconv.Itoa(n)[i]))
+			return false, i
 		}
 	}
 	return true, -1
